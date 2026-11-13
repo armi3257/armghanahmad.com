@@ -1,0 +1,8 @@
+/* Colors for the whole site. Change them here and every page follows. */
+:root{--ground:#ffecec;--ink:#2b0b12;--accent:#b5122f;color-scheme:light}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ground);color:var(--ink)}
+a{color:inherit}
+@media (prefers-reduced-motion: no-preference){html{scroll-behavior:smooth}}
+/* a soft cross-fade between pages where the browser supports it */
+@view-transition{navigation:auto}

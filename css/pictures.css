@@ -1,0 +1,88 @@
+/* Pictures | Armghan Ahmad. Colors come from tokens.css. */
+.cl{--mute:color-mix(in srgb,var(--ink) 68%,var(--ground));--line:color-mix(in srgb,var(--ink) 22%,transparent);--soft:color-mix(in srgb,var(--ground) 82%,var(--ink));--line-l:color-mix(in srgb,var(--ground) 24%,transparent);--eo:cubic-bezier(.23,1,.32,1);--eio:cubic-bezier(.77,0,.175,1);font-family:'Geist','Helvetica Neue',Arial,sans-serif;color:var(--ink);background:var(--ground);overflow-x:clip;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.cl *{box-sizing:border-box}
+.cl a{text-decoration:none}
+.cl a:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.lab{font-size:11.5px;line-height:1.2;letter-spacing:.14em;text-transform:uppercase;font-weight:500}
+.dot{width:8px;height:8px;border-radius:50%;background:currentColor;flex:none;display:inline-block}
+.dk{background:var(--ink);color:var(--ground)}
+
+/* bar */
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 30px}
+.bar a{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;transition:opacity .2s ease}
+.nav{display:flex;gap:6px}
+.nav a[aria-current]{box-shadow:inset 0 -1px 0 currentColor}
+
+/* hero */
+.p-hero{padding:clamp(8px,1.4vw,24px) 40px 0}
+.p-h1{margin:0;font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;font-size:min(21.8vw,350px);line-height:.9;letter-spacing:-.035em;color:var(--accent);white-space:nowrap}
+.ln{display:block;overflow:hidden;padding:.08em .12em .26em .05em;margin:-.08em -.12em -.26em -.05em}
+.ln > span{display:inline-block;animation:rise 1.1s var(--eo) .15s both}
+.idx{display:flex;flex-wrap:wrap;align-items:center;gap:2px 20px;padding-top:clamp(18px,2.4vw,40px);font-size:clamp(19px,2.2vw,32px);font-weight:500;letter-spacing:-.03em;text-transform:lowercase;animation:fadeup 1s var(--eo) .55s both}
+.idx a{display:inline-flex;align-items:center;min-height:44px;transition:opacity .2s ease}
+
+/* series */
+.gal{padding-bottom:clamp(88px,10vw,150px)}
+.sr{padding-top:clamp(56px,7vw,112px)}
+.h2{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;font-size:clamp(52px,8.4vw,132px);line-height:.9;letter-spacing:-.03em;margin:0 0 clamp(20px,2.4vw,36px);padding:0 40px .08em;text-transform:lowercase}
+.strip{overflow-x:auto;overflow-y:hidden;scrollbar-width:none}
+.strip::-webkit-scrollbar{display:none}
+.track{display:flex;gap:16px;width:max-content;padding:0 40px}
+.track img{display:block;flex:none;height:clamp(240px,34vw,500px);width:auto;background:color-mix(in srgb,var(--ink) 10%,var(--ground))}
+
+/* footer */
+.ft{padding:36px 40px 40px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:28px 48px}
+.ft-ur{font-family:'Noto Nastaliq Urdu',serif;font-size:clamp(40px,6vw,88px);line-height:2.1;margin:0;direction:rtl}
+.ft-links{display:flex;flex-wrap:wrap;gap:0 22px}
+.ft-links a{display:inline-flex;align-items:center;min-height:44px}
+.ft-meta{color:var(--soft)}
+
+/* reveals, armed only once the script has run */
+.cl[data-js] .up{opacity:0;transform:translateY(26px);transition:opacity .8s var(--eo),transform 1s var(--eo)}
+.cl[data-js] .sr.in .up{opacity:1;transform:none}
+.cl[data-js] .track img{clip-path:inset(100% 0 0 0);transition:clip-path 1.05s var(--eio);transition-delay:calc(var(--k) * 90ms)}
+.cl[data-js] .strip.in .track img{clip-path:inset(0 0 0 0)}
+
+@keyframes rise{from{transform:translateY(118%)}to{transform:translateY(0)}}
+@keyframes fadeup{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(calc(var(--over, 0px) * -1))}}
+@keyframes slide-r{from{transform:translateX(calc(var(--over, 0px) * -1))}to{transform:translateX(0)}}
+
+/* each strip slides sideways as the page scrolls; without support it scrolls by hand */
+@supports (animation-timeline: view()){
+@media (prefers-reduced-motion: no-preference){
+.cl[data-js]:not([data-sl]) .strip{overflow:hidden;view-timeline-name:--strip;view-timeline-axis:block}
+.cl[data-js]:not([data-sl]) .track{animation:slide 1ms linear both;animation-timeline:--strip;animation-range:cover 12% cover 88%}
+.cl[data-js]:not([data-sl]) .strip.rev .track{animation-name:slide-r}
+}
+}
+@media (hover:hover) and (pointer:fine){
+.bar a:hover,.idx a:hover,.ft-links a:hover{opacity:.55}
+.ft-links a{transition:opacity .2s ease}
+}
+@media (max-width:760px){
+.bar{padding:8px 10px;flex-wrap:wrap;gap:0 4px}
+.nav{width:100%;gap:0}
+.p-hero{padding:6px 20px 0}
+.p-h1{font-size:20vw}
+.idx{gap:0 18px}
+.idx .dot{display:none}
+.h2{padding-left:20px;padding-right:20px}
+.track{padding:0 20px;gap:10px}
+.ft{padding:28px 20px 32px}
+}
+@media (prefers-reduced-motion: reduce){
+.cl *,.cl *::before,.cl *::after{animation:none !important;transition:none !important}
+.cl[data-js] .up{opacity:1;transform:none}
+.cl[data-js] .track img{clip-path:none}
+}
+
+/* Each series holds all of its photographs: one large row, then smaller rows. */
+.strip + .strip{margin-top:16px}
+.strip.sm .track img{height:clamp(170px,23vw,340px)}
+@media (max-width:760px){.strip + .strip{margin-top:10px}}
+
+/* Scroll-linked strips for browsers without CSS scroll-driven animations. site.js sets --p from 0 to 1. */
+.cl[data-sl] .strip{overflow:hidden}
+.cl[data-sl] .track{transform:translateX(calc(var(--over, 0px) * -1 * var(--p, 0)))}
+.cl[data-sl] .strip.rev .track{transform:translateX(calc(var(--over, 0px) * -1 * (1 - var(--p, 0))))}
