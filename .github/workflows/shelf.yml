@@ -1,0 +1,47 @@
+# Adds new Flowers at Last volumes to the Writing shelf on the home page.
+# It reads the public Substack feed four times a day. You can also run it by hand:
+# Actions tab, "Update the Writing shelf", Run workflow.
+name: Update the Writing shelf
+
+on:
+  schedule:
+    - cron: '23 */6 * * *'   # 00:23, 06:23, 12:23, 18:23 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write   # to commit index.html
+  pages: write      # to ask GitHub Pages to build the site again
+
+concurrency:
+  group: shelf
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Get the site files
+        run: git clone --quiet --depth 1 "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" .
+
+      - name: Add new volumes from Substack
+        id: shelf
+        run: python3 .github/scripts/update_shelf.py
+
+      - name: Save the change
+        if: steps.shelf.outputs.changed == 'true'
+        env:
+          ADDED: ${{ steps.shelf.outputs.added }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit --quiet -m "Home: add ${ADDED} to the Writing shelf"
+          git push --quiet
+
+      # A commit from a workflow does not start a GitHub Pages build, so ask for one.
+      - name: Publish
+        if: steps.shelf.outputs.changed == 'true'
+        run: gh api --method POST "repos/${GITHUB_REPOSITORY}/pages/builds"
