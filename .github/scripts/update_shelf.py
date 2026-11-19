@@ -11,8 +11,11 @@ To use a different passage for a volume, edit index.html by hand or build from t
 import html
 import os
 import re
+import shutil
+import subprocess
 import sys
 import time
+import urllib.error
 import urllib.request
 import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
@@ -188,17 +191,30 @@ def pas_html(numeral, title, slug, units, verse):
             f'<a class="lab more" href="{SUB}/p/{slug}" target="_blank" rel="noopener">{more}{ARROW}</a></div></div>\n')
 
 
+UA = 'armghanahmad.com shelf updater (+https://armghanahmad.com)'
+
+
 def fetch(url):
-    last = None
+    """Read the feed. Try Python first, then curl, three times. Both give the same name (UA)."""
+    notes = []
     for attempt in range(3):
         try:
-            req = urllib.request.Request(url, headers={'User-Agent': 'armghanahmad.com shelf updater (+https://armghanahmad.com)'})
+            req = urllib.request.Request(url, headers={'User-Agent': UA, 'Accept': 'application/rss+xml, application/xml'})
             with urllib.request.urlopen(req, timeout=30) as r:
                 return r.read()
-        except Exception as e:  # network errors and HTTP errors
-            last = e
-            time.sleep(20 * (attempt + 1))
-    raise SystemExit(f'Could not read the Substack feed: {last}')
+        except urllib.error.HTTPError as e:
+            notes.append(f'python: HTTP {e.code} {e.read(200)!r}')
+        except Exception as e:  # network errors
+            notes.append(f'python: {e}')
+        if shutil.which('curl'):
+            c = subprocess.run(['curl', '-sS', '--fail-with-body', '--max-time', '30', '-A', UA, url], capture_output=True)
+            if c.returncode == 0 and b'<rss' in c.stdout[:2000]:
+                return c.stdout
+            notes.append(f'curl: exit {c.returncode} {c.stdout[:200]!r} {c.stderr[:200]!r}')
+        time.sleep(15 * (attempt + 1))
+    for n in notes:
+        print(n)
+    raise SystemExit('Could not read the Substack feed. Nothing changed.')
 
 
 def feed_volumes(xml_bytes):
