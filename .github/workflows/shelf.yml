@@ -1,11 +1,14 @@
 # Adds new Flowers at Last volumes to the Writing shelf on the home page.
-# It reads the public Substack feed four times a day. You can also run it by hand:
-# Actions tab, "Update the Writing shelf", Run workflow.
+#
+# STATUS 2026-11-19: NOT IN OPERATION. Substack does not answer requests from GitHub's servers
+# (HTTP 403 with a Cloudflare check), so the script cannot read the feed from here.
+# The schedule is off until the feed source is decided. See the handoff document.
+# You can run it by hand: Actions tab, "Update the Writing shelf", Run workflow.
 name: Update the Writing shelf
 
 on:
-  schedule:
-    - cron: '23 */6 * * *'   # 00:23, 06:23, 12:23, 18:23 UTC
+  # schedule:
+  #   - cron: '23 */6 * * *'   # 00:23, 06:23, 12:23, 18:23 UTC
   workflow_dispatch:
 
 permissions:
