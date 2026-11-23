@@ -86,3 +86,40 @@
 .cl[data-sl] .strip{overflow:hidden}
 .cl[data-sl] .track{transform:translateX(calc(var(--over, 0px) * -1 * var(--p, 0)))}
 .cl[data-sl] .strip.rev .track{transform:translateX(calc(var(--over, 0px) * -1 * (1 - var(--p, 0))))}
+/* A photograph opens large on a click or a tap. site.js builds the dialog (.lb).
+   Without the script each photograph is a plain link to its large file. */
+.track a{display:block;flex:none}
+.track a:focus-visible{outline:2px solid var(--ground);outline-offset:-7px}
+.cl[data-js] .track a{cursor:zoom-in;-webkit-tap-highlight-color:transparent}
+.sr{position:relative}
+.lb-k{position:absolute;right:40px;top:clamp(56px,7vw,112px);appearance:none;-webkit-appearance:none;border:0;background:var(--ink);color:var(--ground);font-family:inherit;min-height:44px;padding:0 16px;cursor:pointer;opacity:0;pointer-events:none}
+.lb-k:focus-visible{opacity:1;pointer-events:auto;outline:2px solid var(--ink);outline-offset:3px}
+.lb{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;overflow:hidden;background:transparent;color:var(--ground);overscroll-behavior:contain;--px:92px;--pt:72px;--pb:44px}
+.lb:not([open]){display:none}
+.lb::backdrop{background:transparent}
+.lb-bg{position:absolute;inset:0;background:var(--ink)}
+.lb-top{position:absolute;z-index:3;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 30px;pointer-events:none}
+.lb-s{padding:0 10px}
+.lb-x{pointer-events:auto;appearance:none;-webkit-appearance:none;border:0;background:transparent;color:inherit;font-family:inherit;min-height:44px;padding:0 10px;cursor:pointer;transition:opacity .2s ease}
+.lb-x:focus-visible,.lb-a:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.lb-fig{position:absolute;z-index:1;inset:var(--pt) var(--px) var(--pb);margin:0;display:grid;place-items:center;pointer-events:none;container-type:size}
+.lb-img{display:block;pointer-events:auto;height:auto;aspect-ratio:var(--ar,1.5);object-fit:contain;max-width:100%;width:min(100%,calc(var(--fw,1500) * 1px),calc((100vh - var(--pt) - var(--pb)) * var(--ar,1.5)));width:min(100cqw,calc(var(--fw,1500) * 1px),calc(100cqh * var(--ar,1.5)));background:color-mix(in srgb,var(--ground) 9%,var(--ink));transform-origin:0 0;transition:opacity .22s ease}
+.lb-img.sw{opacity:0;transition:none}
+.lb-nav{position:absolute;z-index:2;inset:0 20px;display:flex;align-items:center;justify-content:space-between;pointer-events:none}
+.lb-a{pointer-events:auto;appearance:none;-webkit-appearance:none;width:52px;height:52px;flex:none;border-radius:50%;border:0;padding:0;background:transparent;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ground) 60%,transparent);color:inherit;display:inline-grid;place-items:center;cursor:pointer;transition:background-color .2s ease,color .2s ease}
+.lb-a svg{width:14px;height:14px}
+.lb-live{position:absolute;width:1px;height:1px;margin:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media (hover:hover) and (pointer:fine){
+.lb-img{cursor:zoom-out}
+.lb-x:hover{opacity:.55}
+.lb-a:hover{background:var(--ground);color:var(--ink)}
+}
+@media (max-width:760px){
+.lb{--px:0px;--pt:64px;--pb:104px}
+.lb-top{padding:8px 10px}
+.lb-nav{inset:auto 0 26px;justify-content:center;gap:14px}
+.lb-k{right:20px}
+}
+@media (min-width:761px) and (max-height:520px){
+.lb{--px:84px;--pt:52px;--pb:14px}
+}
