@@ -32,8 +32,11 @@ Do not delete or change the CNAME file or the .nojekyll file.
 
 ## Notes
 
-- Links between pages use index.html, work.html and pictures.html so the site also opens from a folder.
-  The host also serves the same pages at /, /work and /pictures.
+- Links between pages use the addresses /, /work and /pictures (written ./ , work , pictures), so each page has one address.
+  The host answers /work with work.html. From a folder on a computer these links do not work. Use a local server
+  that does the same (serve.py in the source package).
+- about.html, contact.html, home.html, parchment.html and the folders photography, parchment-j and poetry-1 hold
+  small pages for addresses of the earlier site. Each one forwards to the page that replaced it. Keep them.
 - The home loader plays once per browser session.
 - Fonts load from Google Fonts: Geist, Instrument Serif, Noto Nastaliq Urdu.
 - Visitor counts, when they are on: one script tag for GoatCounter at the end of each page. It sets no cookie.

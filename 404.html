@@ -17,6 +17,17 @@
 </style>
 </head>
 <body>
+<script>
+/* An address of the earlier site goes to the page that replaced it. */
+(function () {
+  var p = window.location.pathname.toLowerCase(), m = p.match(/^\/photography\/([a-z-]+)/), to = null;
+  if (m) to = '/pictures#' + m[1];
+  else if (/^\/photography\/?$/.test(p)) to = '/pictures';
+  else if (/^\/(parchment|parchment-j|poetry-1)(\/|$)/.test(p)) to = '/#writing';
+  else if (/^\/(work|pictures)\/$/.test(p)) to = p.slice(0, -1);
+  if (to) window.location.replace(to);
+})();
+</script>
 <main class="nf">
 <h1>not here.</h1>
 <a href="/">Back to the front page</a>
