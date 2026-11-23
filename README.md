@@ -13,6 +13,7 @@ Do not delete or change the CNAME file or the .nojekyll file.
 - js/site.js: reveals, sliding rows, the enlarged photograph, counts of outbound clicks, scroll motion fallback
 - img/home, img/pictures: photographs. img/og.jpg is the share image.
 - .github: a job that adds new Flowers at Last volumes to the home page. It is not part of the pages.
+- google00153d3c3698cddc.html: proves ownership to Google Search Console. Do not delete it.
 
 ## Photographs
 
